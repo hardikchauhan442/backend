@@ -9,7 +9,7 @@ export function initRoutes(app: Express) {
 
   app.use('/api/v1/user', apiRoutes.initRoutes(app, express.Router()));
   app.use('/api/v1/admin', adminRoutes.initRoutes(app, express.Router()));
-  app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to SARVADHI world!!' }));
+  app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to world!!' }));
   app.use('*', (req, res, next) => {
     try {
       throw new appError('path not found',ErrorType.not_found);

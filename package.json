@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.ts",
     "dev": "nodemon src/index.ts",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
@@ -13,18 +14,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MaySolanki26/Sarvadhi_Demo_Node.git"
+    "url": "https://github.com/hardik311099/india.git"
   },
   "keywords": [
     "node",
     "typescript"
   ],
-  "author": "MayurSinh <mayur@sarvadhi.com> (https://github.com/MaySarvadhi/Chat-App-BackEnd.git)",
+  "author": "Hardik Chauhan",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MaySolanki26/Sarvadhi_Demo_Node/issues"
+    "url": "https://github.com/hardik311099/india/issues"
   },
-  "homepage": "https://github.com/MaySolanki26/Sarvadhi_Demo_Node#readme",
+  "homepage": "",
   "dependencies": {
     "@types/lodash": "^4.14.182",
     "bcrypt": "^5.0.1",

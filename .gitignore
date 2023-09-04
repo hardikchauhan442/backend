@@ -2,3 +2,5 @@ node_modules
 
 # enviorment files
 .env
+.DS_Store
+yarn.lock
