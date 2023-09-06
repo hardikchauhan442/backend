@@ -19,9 +19,17 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-
       type: {
         type: DataTypes.STRING,
+      },
+      inputType: {
+        type: DataTypes.STRING,
+      },
+      labal: {
+        type: DataTypes.STRING,
+      },
+      option: {
+        type: DataTypes.TEXT,
       },
       name: {
         type: DataTypes.STRING,

@@ -5,7 +5,6 @@ class Model {
   errors: any;
   constructor() {}
   async create(req, res, next) {
-    const { id } = req.params;
     const { modelName } = req.body;
 
     const data = await db['model'].create({

@@ -7,6 +7,7 @@ export function initRoutes(app, router) {
   const addColums = new addCol();
 
   apiRoute.post('/:id', addColums.create);
+  apiRoute.delete('/:id', addColums.delete);
   apiRoute.get('/:id', addColums.findModelFiled);
 
   apiRoute.route('*').all(verifyJWT_MW);

@@ -21,7 +21,7 @@ module.exports = function (sequelize, DataTypes) {
       value: {
         type: DataTypes.STRING,
       },
-      modelDataId: {
+      model444DataId: {
         type: DataTypes.UUID,
       },
     },
