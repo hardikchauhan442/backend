@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 import express,{ Express } from 'express';
 import cors from 'cors';
 import { json, urlencoded } from 'body-parser';
-
+import fileUpload from 'express-fileupload'
 import * as routes from './routes/';
 import { logger } from './logger/Logger';
 import { environment } from './config';
@@ -30,6 +30,9 @@ export class Server {
     this.app = express();
     this.app.use(cors({
       optionsSuccessStatus: 200
+    }));
+    this.app.use(fileUpload({
+      limits: { fileSize: 50 * 1024 * 1024 },
     }));
     this.app.use(urlencoded({
       extended: true
