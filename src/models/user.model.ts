@@ -4,84 +4,75 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: './.env' });
 
-module.exports = function(sequelize, DataTypes) {
-  const User = sequelize.define('User', {
-    id: {
-      allowNull: false,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      primaryKey: true
-    },
-    firstName: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    lastName: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    avatar: {
-      type: DataTypes.STRING
-    },
-    phone: {
-      type: DataTypes.STRING
-    },
-    password: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-        len: [ 6, 100 ]
-      }
-    },
-    resetToken: {
-      type: DataTypes.STRING
-    },
-    resetTokenSentAt: {
-      type: DataTypes.DATE,
-      validate: {
-        isDate: true
-      }
-    },
-    resetTokenExpireAt: {
-      type: DataTypes.DATE,
-      validate: {
-        isDate: true
-      }
-    },
-    email: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: {
-        len: {
-          args: [ 6, 128 ],
-          msg: 'Email address must be between 6 and 128 characters in length'
+module.exports = function (sequelize, DataTypes) {
+  const User = sequelize.define(
+    'User',
+    {
+      id: {
+        allowNull: false,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV1,
+        primaryKey: true,
+      },
+      firstName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      lastName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      avatar: {
+        type: DataTypes.STRING,
+      },
+      phone: {
+        type: DataTypes.STRING,
+      },
+      password: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      resetToken: {
+        type: DataTypes.STRING,
+      },
+      resetTokenSentAt: {
+        type: DataTypes.DATE,
+        validate: {
+          isDate: true,
         },
-        isEmail: {
-          msg: 'Email address must be valid'
-        }
-      }
+      },
+      resetTokenExpireAt: {
+        type: DataTypes.DATE,
+        validate: {
+          isDate: true,
+        },
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      status: {
+        allowNull: false,
+        type: DataTypes.ENUM,
+        values: ['pending', 'accepted'],
+        defaultValue: 'pending',
+        validate: {
+          isIn: {
+            args: [['pending', 'accepted']],
+            msg: 'Invalid status.',
+          },
+        },
+      },
     },
-    status: {
-      allowNull: false,
-      type: DataTypes.ENUM,
-      values: [ 'pending' , 'accepted' ],
-      defaultValue: 'pending',
-      validate: {
-        isIn: {
-          args: [[ 'pending' , 'accepted' ]],
-          msg: 'Invalid status.'
-        }
-      }
-    }
-  }, {
-    indexes: [{ unique: true, fields: ['email'] }],
-    timestamps: true,
-    freezeTableName: true,
-    tableName: 'users'
-  });
+    {
+      indexes: [{ unique: true, fields: ['email'] }],
+      timestamps: true,
+      freezeTableName: true,
+      tableName: 'users',
+    },
+  );
 
-  User.beforeSave(user => {
+  User.beforeSave((user) => {
     if (user.changed('password')) {
       user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
     }
@@ -93,10 +84,8 @@ module.exports = function(sequelize, DataTypes) {
   };
 
   User.prototype.authenticate = function authenticate(value) {
-    if (bcrypt.compareSync(value, this.password))
-      return this;
-    else
-      return false;
+    if (bcrypt.compareSync(value, this.password)) return this;
+    else return false;
   };
   return User;
 };

@@ -7,3 +7,4 @@ yarn.lock
 bun.lockb
 package-lock.json
 *.exe
+bun.lock

@@ -1,6 +1,6 @@
 import db from '../../models';
 let model = 'Users';
-export class UsersController {
+export class AuthController {
   errors: any;
   constructor(m) {
     model = m;
@@ -19,24 +19,6 @@ export class UsersController {
     } catch (error) {
       return next(error);
     }
-  }
-
-  async _list(req, res, next) {
-    try {
-      let list = await db[model].findAll({
-        include: [{ all: true }],
-      });
-      return res.status(200).send({ success: true, data: list, message: 'Successfullty get users list' });
-    } catch (error) {
-      return next(error);
-    }
-  }
-
-  async _findOne(req, res, callback = null) {
-    const user = await db[model].findOne({
-      where: { email: req.body.email },
-    });
-    return res.status(200).send({ success: true, data: user, message: 'Successfullty get user' });
   }
 
   async _login(req, res, next) {

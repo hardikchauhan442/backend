@@ -56,7 +56,7 @@ yarn start dev
 > This starts a local server using `nodemon`, which will watch for any file changes and will restart the server according to these changes.
 > The server address will be displayed to you as `http://0.0.0.0:3000`.
 
-![divider](./sarvadhi-divider.png)
+![divider]
 
 ## ❯ Scripts and Tasks
 
@@ -87,7 +87,7 @@ yarn start dev
 
 - Run ` npx sequelize-cli db:seed:all` to seed your seeds into the database.
 
-![divider](./sarvadhi-divider.png)
+
 
 ## ❯ API Routes
 
@@ -99,7 +99,7 @@ The route prefix is `/api/v1` by default.
 | **/api/users** | Example entity endpoint |
 | **/api/admin**  | Example entity endpoint |
 
-![divider](./sarvadhi-divider.png)
+
 
 ## ❯ Project Structure
 
@@ -117,7 +117,7 @@ The route prefix is `/api/v1` by default.
 | **src/validation/**           | Custom validators, which can be used in the request classes |
 | .env                      | Environment configurations |
 
-![divider](./sarvadhi-divider.png)
+
 
 ## ❯ Logging
 
@@ -146,8 +146,3 @@ const config = {
 
 export const logger = createLogger(config);
 ```
-![divider](./sarvadhi-divider.png)
-
-## ❯ License
-
-[ISC](/LICENSE)
