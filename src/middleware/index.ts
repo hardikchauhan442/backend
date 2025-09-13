@@ -1,7 +1,6 @@
 import errorHandlerMiddleware from './errorHandling';
-import responseHandling from './responseHandling';
+import { sendMessage, sendResponse } from './responseHandling';
+import { decryptData } from './decryption';
+import { validateBody } from './validate';
 
-export {
-  errorHandlerMiddleware,
-  responseHandling
-};
+export { errorHandlerMiddleware, sendMessage, sendResponse, decryptData, validateBody };

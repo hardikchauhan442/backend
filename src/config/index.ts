@@ -1,3 +1,3 @@
-import { config } from './config';
+import { env } from './config';
 
-export const environment = config;
+export const environment = env;

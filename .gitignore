@@ -1,10 +1,17 @@
 node_modules
-
-# enviorment files
+dist
 .env
+.env.local
+.env.*
 .DS_Store
-yarn.lock
-bun.lockb
-package-lock.json
-*.exe
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+.idea
+coverage
+logs
+
+*.tsbuildinfo
 bun.lock

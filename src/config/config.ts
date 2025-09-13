@@ -1,24 +1,31 @@
-import * as dotenv from 'dotenv';
-import { Dialect } from 'sequelize/types';
+import dotenv from 'dotenv';
 
-dotenv.config({ path: './.env' });
-
-export const config = {
-  db_host: process.env.DB_HOSTNAME,
-  secret: process.env.SECRET,
-  db_name: process.env.DB_NAME,
-  db_user: process.env.DB_USERNAME,
-  db_password: process.env.DB_PASSWORD,
-  db_driver: process.env.DB_DRIVER as Dialect,
-  db_port: process.env.DB_PORT,
-  port: process.env.PORT,
-  region: process.env.REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
-  bucket: process.env.BUCKET,
-  image_detail_region: process.env.IMAGE_DETAIL_REGION,
-  image_detail_accessKeyId: process.env.IMAGE_DETAIL_AWS_ACCESS_KEY,
-  image_detail_secretAccessKey: process.env.IMAGE_DETAIL_SECRET_ACCESS_KEY,
-  image_detail_bucket: process.env.IMAGE_DETAIL_BUCKET,
-  aws_url: process.env.AWS_URL,
+dotenv.config({ path: `./.env.${process.env.NODE_ENV}` });
+const config = {
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  secret: process.env.JWT_SECRET,
+  port: process.env.DB_PORT,
+  appPort: process.env.PORT,
+  adminEmail: process.env.ADMIN_EMAIL,
+  adminPassword: process.env.ADMIN_PASSWORD,
+  adminName: process.env.ADMIN_NAME,
+  CloudFrontUrl: process.env.CLOUDFRONT_DOMAIN,
+  appLang: process.env.APP_LANG || 'en',
+  CHIPER: process.env.CHIPER,
+  ENCRYPTION_KEY: process.env.TERIFF,
+  CHIPER_IV: process.env.PLAN,
 };
+
+const configs = {
+  development: { ...config },
+  local: { ...config },
+  test: { ...config },
+  production: { ...config },
+};
+
+const env = configs[process.env.NODE_ENV as keyof typeof configs] || configs.development;
+
+export { env };

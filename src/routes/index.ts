@@ -1,16 +1,11 @@
 import express, { Express } from 'express';
 
-import * as apiRoutes from './users.routes';
-import * as adminRoutes from './admin.routes';
-import appError from '../utils/errorHelper';
-import { ErrorType } from '../utils/errorTypes';
+import * as apiRoutes from './app.routes';
+import * as testRoutes from './test.routes';
+import { ENDPOINT } from '@app/constant/endPoint.constant';
 
 export function initRoutes(app: Express) {
-
-  app.use('/api/v1/user', apiRoutes.initRoutes(app, express.Router()));
-  app.use('/api/v1/admin', adminRoutes.initRoutes(app, express.Router()));
-  app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to world!!' }));
-
-
+  app.use(ENDPOINT.BASE + ENDPOINT.TEST, testRoutes.initRoutes(app, express.Router()));
+  app.use(ENDPOINT.BASE, apiRoutes.initRoutes(app, express.Router()));
+  return app;
 }
-

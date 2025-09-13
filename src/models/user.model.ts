@@ -1,91 +1,24 @@
-import { createJWToken } from '../config/auth';
-import * as bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
+import { environment } from '@app/config';
+import bcrypt from 'bcrypt';
+import { pool } from '@app/config/db'; // your pg Pool
 
-dotenv.config({ path: './.env' });
-
-module.exports = function (sequelize, DataTypes) {
-  const User = sequelize.define(
-    'User',
-    {
-      id: {
-        allowNull: false,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV1,
-        primaryKey: true,
-      },
-      firstName: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      lastName: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      avatar: {
-        type: DataTypes.STRING,
-      },
-      phone: {
-        type: DataTypes.STRING,
-      },
-      password: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      resetToken: {
-        type: DataTypes.STRING,
-      },
-      resetTokenSentAt: {
-        type: DataTypes.DATE,
-        validate: {
-          isDate: true,
-        },
-      },
-      resetTokenExpireAt: {
-        type: DataTypes.DATE,
-        validate: {
-          isDate: true,
-        },
-      },
-      email: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      status: {
-        allowNull: false,
-        type: DataTypes.ENUM,
-        values: ['pending', 'accepted'],
-        defaultValue: 'pending',
-        validate: {
-          isIn: {
-            args: [['pending', 'accepted']],
-            msg: 'Invalid status.',
-          },
-        },
-      },
-    },
-    {
-      indexes: [{ unique: true, fields: ['email'] }],
-      timestamps: true,
-      freezeTableName: true,
-      tableName: 'users',
-    },
+export async function createUserTable() {
+  const sql = `
+  CREATE TABLE IF NOT EXISTS "User" (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    email TEXT,
+    phone TEXT,
+    password TEXT NOT NULL,
+    "isActive" BOOLEAN DEFAULT TRUE,
+    "roleId" UUID REFERENCES permission(id) ON DELETE SET NULL ON UPDATE NO ACTION,
+    "createdBy" UUID,
+    "updatedBy" UUID,
+    "deletedBy" UUID,
+    "createdAt" TIMESTAMPTZ DEFAULT now(),
+    "updatedAt" TIMESTAMPTZ DEFAULT now(),
+    "deletedAt" TIMESTAMPTZ
   );
-
-  User.beforeSave((user) => {
-    if (user.changed('password')) {
-      user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
-    }
-  });
-
-  User.prototype.generateToken = function generateToken() {
-    console.log('JWT:' + process.env.SECRET);
-    return createJWToken({ email: this.email, id: this.id });
-  };
-
-  User.prototype.authenticate = function authenticate(value) {
-    if (bcrypt.compareSync(value, this.password)) return this;
-    else return false;
-  };
-  return User;
-};
+  `;
+  await pool.query(sql);
+}

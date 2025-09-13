@@ -1,37 +1,30 @@
-import * as fs from 'fs';
-import { logger } from '../logger/Logger';
-import * as path from 'path';
-import * as Sequelize from 'sequelize';
-import { sequelize } from '../config/sequelize';
+import { initDb, pool } from '@app/config/db';
+import { createUserTable } from './user.model';
+import { createMasterTable } from './master.model';
+import { createPermissionTable } from './permistion.model';
+import { createRawMaterialTable } from './raw_materials.model';
+import { logger } from '@app/logger';
+import { createVendorsTable } from './vendors.model';
+import { createManufacturersTable } from './manufacturers.model';
+import { createLocationTable } from './location.model';
+import { createRawMaterialTransactionsTable } from './raw_material_transactions';
+import { createJobsTable } from './jobs.model';
+import { createProductionTrackerTable } from './production_tracker.model';
+import { createWastageReturnMaterialTable } from './wastage';
 
-const basename = path.basename(module.filename);
+(async () => {
+  await initDb();
+  await createMasterTable();
+  await createPermissionTable();
+  await createLocationTable();
+  await createUserTable();
+  await createVendorsTable();
+  await createManufacturersTable();
+  await createRawMaterialTable();
+  await createJobsTable();
+  await createRawMaterialTransactionsTable();
+  await createProductionTrackerTable();
+  await createWastageReturnMaterialTable();
 
-const db = {};
-fs
-  .readdirSync(__dirname)
-  .filter(function(file) {
-    logger.warn(file);
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.ts');
-  })
-  .forEach(function(file) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    // NOTE: you have to change from the original property notation to
-    // index notation or tsc will complain about undefined property.
-    db[model['name']] = model;
-  });
-Object.keys(db).forEach(function(modelName) {
-  logger.silly(modelName);
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
-
-db['sequelize'] = sequelize;
-db['Sequelize'] = Sequelize;
-
-sequelize.sync();
-export default db;
+  logger.info('✅ All models were synchronized successfully.');
+})();
