@@ -9,9 +9,9 @@ export const shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 export const up = (pgm) => {
-  // pgm.addColumn('permission', {
-  //   description: { type: 'text', notNull: false },
-  // })
+  pgm.addColumn('permission', {
+    description: { type: 'text', notNull: false },
+  })
 
 };
 
@@ -21,5 +21,5 @@ export const up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 export const down = (pgm) => {
-  // pgm.dropColumn('permission', 'description')
+  pgm.dropColumn('permission', 'description')
 };
